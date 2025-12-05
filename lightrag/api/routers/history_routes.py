@@ -7,18 +7,13 @@ and conversation history.
 
 from fastapi import APIRouter, Depends, HTTPException, Header, status
 from sqlalchemy.orm import Session
-from typing import List, Optional
+from typing import List, Optional, Union
 from uuid import UUID
 import time
 
-from lightrag.api.session_database import get_db
-from lightrag.api.session_manager import SessionHistoryManager
-from lightrag.api.session_schemas import (
-    SessionResponse,
-    SessionCreate,
-    ChatMessageResponse,
-    ChatMessageRequest,
-)
+from lightrag.services.session.session_database import get_db
+from lightrag.services.session.session_manager import SessionHistoryManager
+from lightrag.services.session.session_schemas import ChatMessageResponse, SessionCreate, SessionResponse
 from lightrag.utils import logger
 
 router = APIRouter(tags=["Session History"])
@@ -101,6 +96,10 @@ async def create_session(
 async def get_session_history(
     session_id: UUID,
     db: Session = Depends(get_db),
+    order_by: str = "created_at",
+    order_direction: str = "asc",
+    skip: Union[int, None] = None,
+    limit: Union[int, None] = None,
 ):
     """
     Get all messages for a specific session.
@@ -108,13 +107,16 @@ async def get_session_history(
     Args:
         session_id: Session UUID.
         db: Database session.
-        
+        order_by: Field to order by.
+        order_direction: Direction to order by. "asc" or "desc".
+        skip: Number of messages to skip. If not provided, all messages will be returned.
+        limit: Maximum number of messages to return. If not provided, all messages will be returned.
     Returns:
         List of chat message responses with citations.
     """
     try:
         manager = SessionHistoryManager(db)
-        messages = manager.get_session_history(session_id)
+        messages = manager.get_session_history(session_id=session_id, order_by=order_by, order_direction=order_direction, skip=skip, limit=limit)
         return messages
     except Exception as e:
         logger.error(f"Error getting session history: {e}")

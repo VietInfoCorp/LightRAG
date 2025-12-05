@@ -409,14 +409,18 @@ def create_app(args):
     
     # Initialize session history database
     try:
-        from lightrag.api.session_database import get_session_db_manager
+        # Session history has been moved under lightrag.services.session
+        from lightrag.services.session.session_database import get_session_db_manager
+
         logger.info("Initializing session history database...")
         session_db_manager = get_session_db_manager()
         logger.info("Session history database initialized successfully")
         app.include_router(history_router)
     except Exception as e:
         logger.warning(f"Session history initialization failed: {e}")
-        logger.warning("Session history endpoints will be unavailable. Check PostgreSQL configuration.")
+        logger.warning(
+            "Session history endpoints will be unavailable. Check PostgreSQL configuration."
+        )
 
     # Add custom validation error handler for /query/data endpoint
     @app.exception_handler(RequestValidationError)

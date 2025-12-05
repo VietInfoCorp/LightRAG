@@ -17,10 +17,10 @@ from lightrag.base import QueryParam
 from lightrag.utils import logger
 from pydantic import BaseModel, Field, field_validator
 
-# Import integrated session history modules
-from lightrag.api.session_database import SessionLocal, get_db
-from lightrag.api.session_manager import SessionHistoryManager
-from lightrag.api.session_schemas import ChatMessageResponse
+# Import integrated session history modules (moved under lightrag.services.session)
+from lightrag.services.session.session_database import SessionLocal, get_db
+from lightrag.services.session.session_manager import SessionHistoryManager
+from lightrag.services.session.session_schemas import ChatMessageResponse
 
 
 router = APIRouter(tags=["query"])
@@ -538,8 +538,8 @@ def create_query_routes(rag, api_key: Optional[str] = None, top_k: int = 60):
                 )
                 
                 # 5. Log Citations
-                if references:
-                    manager.save_citations(ai_msg.id, references)
+                if final_response.references:
+                    manager.save_citations(ai_msg.id, final_response.references)
                     
                 db.close()
             except Exception as log_exc:
@@ -634,7 +634,7 @@ def create_query_routes(rag, api_key: Optional[str] = None, top_k: int = 60):
     )
     async def query_text_stream(
         request: QueryRequest,
-        x_user_id: Optional[str] = Header(None, alias="X-User-ID")
+        x_user_id: Optional[str] = Header(None, alias="X-User-ID"),
     ):
         """
         Advanced RAG query endpoint with flexible streaming response.
@@ -770,6 +770,7 @@ def create_query_routes(rag, api_key: Optional[str] = None, top_k: int = 60):
             from fastapi.responses import StreamingResponse
 
             # Unified approach: always use aquery_llm for all cases
+            start_time = time.time()
             result = await rag.aquery_llm(request.query, param=param)
 
             async def stream_generator():
@@ -848,10 +849,10 @@ def create_query_routes(rag, api_key: Optional[str] = None, top_k: int = 60):
                 try:
                     db = SessionLocal()
                     manager = SessionHistoryManager(db)
-                    
+
                     # 1. Get User ID
-                    current_user_id = x_user_id or "default_user" 
-                    
+                    current_user_id = x_user_id or "default_user"
+
                     # 2. Handle Session
                     session_uuid = None
                     if request.session_id:
@@ -860,36 +861,68 @@ def create_query_routes(rag, api_key: Optional[str] = None, top_k: int = 60):
                             if manager.get_session(temp_uuid):
                                 session_uuid = temp_uuid
                             else:
-                                logger.warning(f"Session {request.session_id} not found. Creating new session.")
+                                logger.warning(
+                                    f"Session {request.session_id} not found. Creating new session."
+                                )
                         except ValueError:
-                            logger.warning(f"Invalid session ID format: {request.session_id}")
-                    
+                            logger.warning(
+                                f"Invalid session ID format: {request.session_id}"
+                            )
+
                     if not session_uuid:
-                        session = manager.create_session(user_id=current_user_id, title=request.query[:50])
+                        session = manager.create_session(
+                            user_id=current_user_id, title=request.query[:50]
+                        )
                         session_uuid = session.id
-                        
+
+                    # Calculate processing time
+                    end_time = time.time()
+                    processing_time = end_time - start_time
+
+                    # Calculate token counts (same logic as /query)
+                    full_content = "".join(full_response_content)
+                    try:
+                        import tiktoken
+
+                        enc = tiktoken.get_encoding("cl100k_base")
+                        query_tokens = len(enc.encode(request.query))
+                        response_tokens = len(enc.encode(full_content))
+                    except ImportError:
+                        # Fallback approximation
+                        query_tokens = len(request.query) // 4
+                        response_tokens = len(full_content) // 4
+                    except Exception as e:
+                        logger.warning(f"Error calculating tokens (stream): {e}")
+                        query_tokens = len(request.query) // 4
+                        response_tokens = len(full_content) // 4
+
                     # 3. Log User Message
                     manager.save_message(
                         session_id=session_uuid,
                         role="user",
-                        content=request.query
+                        content=request.query,
+                        token_count=query_tokens,
+                        processing_time=None,
                     )
-                    
+
                     # 4. Log Assistant Message
-                    full_content = "".join(full_response_content)
                     ai_msg = manager.save_message(
                         session_id=session_uuid,
                         role="assistant",
-                        content=full_content
+                        content=full_content,
+                        token_count=response_tokens,
+                        processing_time=processing_time,
                     )
-                    
+
                     # 5. Log Citations
                     if final_references:
                         manager.save_citations(ai_msg.id, final_references)
-                        
+
                     db.close()
                 except Exception as log_exc:
-                    logger.error(f"Error logging history (stream): {log_exc}", exc_info=True)
+                    logger.error(
+                        f"Error logging history (stream): {log_exc}", exc_info=True
+                    )
                 # --- LOGGING END ---
 
             return StreamingResponse(

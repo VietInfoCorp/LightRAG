@@ -6,8 +6,12 @@ messages, and citations.
 """
 
 from sqlalchemy.orm import Session
-from lightrag.api.session_models import ChatMessage, ChatSession, MessageCitation
-from typing import List, Dict, Optional
+from lightrag.services.session.session_models import (
+    ChatMessage,
+    ChatSession,
+    MessageCitation,
+)
+from typing import List, Dict, Optional, Union
 import uuid
 
 
@@ -190,22 +194,35 @@ class SessionHistoryManager:
             self.db.add(citation)
         self.db.commit()
 
-    def get_session_history(self, session_id: uuid.UUID) -> List[ChatMessage]:
+    def get_session_history(self, session_id: uuid.UUID, order_by: str = "created_at", order_direction: str = "asc", skip: Union[int, None] = None, limit: Union[int, None] = None) -> List[ChatMessage]:
         """
         Get all messages for a session.
         
         Args:
-            session_id: Session UUID.
-            
+            - session_id: Session UUID.
+            - order_by: Field to order by.
+            - order_direction: Direction to order by. "asc" or "desc".
+            - skip: Number of messages to skip. If not provided, all messages will be returned.
+            - limit: Maximum number of messages to return. If not provided, all messages will be returned.
+        
         Returns:
-            List of ChatMessage instances ordered by creation time.
+            List of ChatMessage instances ordered by the specified field.
         """
-        return (
+        query = (
             self.db.query(ChatMessage)
             .filter(ChatMessage.session_id == session_id)
-            .order_by(ChatMessage.created_at.asc())
-            .all()
+            .order_by(
+                getattr(ChatMessage, order_by).desc() if order_direction == "desc" else getattr(ChatMessage, order_by).asc()
+            )
         )
+        
+        if skip is not None:
+            query = query.offset(skip)
+        
+        if limit is not None:
+            query = query.limit(limit)
+        
+        return query.all()
     
     def delete_session(self, session_id: uuid.UUID) -> bool:
         """

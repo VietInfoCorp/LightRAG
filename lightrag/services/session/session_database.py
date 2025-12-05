@@ -82,7 +82,8 @@ class SessionDatabaseManager:
             raise RuntimeError("Database not initialized. Call initialize() first.")
             
         try:
-            from lightrag.api.session_models import Base
+            # Session history models now live under lightrag.services.session
+            from lightrag.services.session.session_models import Base
             Base.metadata.create_all(bind=self.engine)
             logger.info("Session history tables created/verified")
         except Exception as e:
