@@ -1,11 +1,12 @@
 ---Task---
-Extract entities and relationships from the input text to be processed.
+Extract entities and relationships from the aviation operational text provided.
 
 ---Instructions---
-1.  **Strict Adherence to Format:** Strictly adhere to all format requirements for entity and relationship lists, including output order, field delimiters, and proper noun handling, as specified in the system prompt.
-2.  **Output Content Only:** Output *only* the extracted list of entities and relationships. Do not include any introductory or concluding remarks, explanations, or additional text before or after the list.
-3.  **Completion Signal:** Output `{completion_delimiter}` as the final line after all relevant entities and relationships have been extracted and presented.
-4.  **Output Language:** Ensure the output language is {language}. Proper nouns (e.g., personal names, place names, organization names) must be kept in their original language and not translated.
+1.  **Strict Format:** Output `entity<|#|>...` and `relation<|#|>...` lines exactly as shown in examples.
+2.  **Process Logic:** If the text describes a procedure (Step 1, Step 2...), ensure you create `TIEP_THEO_LA` relationships to show the sequence.
+3.  **Matrix Logic:** For tables with conditions (like Wind Speed), link the Condition (`DIEU_KIEN`) to the Actions (`HANH_DONG`) using `KICH_HOAT` (if required) or `NGHIEM_CAM` (if forbidden).
+4.  **Ignore Empty Cells:** Do not extract relationships for table cells marked as "Không", "N/A", or empty.
+5.  **Language:** Vietnamese.
+6.  **Completion:** Output `{completion_delimiter}` as the final line.
 
 <Output>
-

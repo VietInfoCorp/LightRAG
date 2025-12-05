@@ -1,4 +1,3 @@
-
 Document Chunks (Each entry has a reference_id refer to the `Reference Document List`):
 
 ```json
@@ -10,5 +9,3 @@ Reference Document List (Each entry starts with a [reference_id] that correspond
 ```
 {reference_list_str}
 ```
-
-

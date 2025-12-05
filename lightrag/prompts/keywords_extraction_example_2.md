@@ -1,10 +1,7 @@
 Example 2:
-
-Query: "What are the environmental consequences of deforestation on biodiversity?"
-
+Query: "Khi gió giật trên 60km/h tại Tân Sơn Nhất thì xe thang có được hoạt động không?"
 Output:
 {
-  "high_level_keywords": ["Environmental consequences", "Deforestation", "Biodiversity loss"],
-  "low_level_keywords": ["Species extinction", "Habitat destruction", "Carbon emissions", "Rainforest", "Ecosystem"]
+  "high_level_keywords": ["Thời tiết nguy hiểm", "Gió giật", "Hoạt động trang thiết bị"],
+  "low_level_keywords": ["60km/h", "Tân Sơn Nhất", "QT18/SGN", "Xe thang", "Thiết bị nâng", "Tốc độ gió"]
 }
-

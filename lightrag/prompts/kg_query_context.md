@@ -1,4 +1,3 @@
-
 Knowledge Graph Data (Entity):
 
 ```json
@@ -22,5 +21,3 @@ Reference Document List (Each entry starts with a [reference_id] that correspond
 ```
 {reference_list_str}
 ```
-
-

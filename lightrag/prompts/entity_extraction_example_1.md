@@ -1,24 +1,20 @@
 <Input Text>
-```
-while Alex clenched his jaw, the buzz of frustration dull against the backdrop of Taylor's authoritarian certainty. It was this competitive undercurrent that kept him alert, the sense that his and Jordan's shared commitment to discovery was an unspoken rebellion against Cruz's narrowing vision of control and order.
+Quy trình kiểm soát tài liệu bên ngoài (V.QMS-P04) gồm các bước: Bước 1: Xác định, nhận biết tài liệu bên ngoài do Cơ quan/Chi nhánh thực hiện. Bước 2: Tiếp nhận tài liệu bên ngoài do Đơn vị liên quan thực hiện. Bước 3: Xử lý và đánh giá nội dung. Thời gian xử lý không quá 05 ngày làm việc.
 
-Then Taylor did something unexpected. They paused beside Jordan and, for a moment, observed the device with something akin to reverence. "If this tech can be understood..." Taylor said, their voice quieter, "It could change the game for us. For all of us."
-
-The underlying dismissal earlier seemed to falter, replaced by a glimpse of reluctant respect for the gravity of what lay in their hands. Jordan looked up, and for a fleeting heartbeat, their eyes locked with Taylor's, a wordless clash of wills softening into an uneasy truce.
-
-It was a small transformation, barely perceptible, but one that Alex noted with an inward nod. They had all been brought here by different paths
-```
 
 <Output>
-entity{tuple_delimiter}Alex{tuple_delimiter}person{tuple_delimiter}Alex is a character who experiences frustration and is observant of the dynamics among other characters.
-entity{tuple_delimiter}Taylor{tuple_delimiter}person{tuple_delimiter}Taylor is portrayed with authoritarian certainty and shows a moment of reverence towards a device, indicating a change in perspective.
-entity{tuple_delimiter}Jordan{tuple_delimiter}person{tuple_delimiter}Jordan shares a commitment to discovery and has a significant interaction with Taylor regarding a device.
-entity{tuple_delimiter}Cruz{tuple_delimiter}person{tuple_delimiter}Cruz is associated with a vision of control and order, influencing the dynamics among other characters.
-entity{tuple_delimiter}The Device{tuple_delimiter}equipment{tuple_delimiter}The Device is central to the story, with potential game-changing implications, and is revered by Taylor.
-relation{tuple_delimiter}Alex{tuple_delimiter}Taylor{tuple_delimiter}power dynamics, observation{tuple_delimiter}Alex observes Taylor's authoritarian behavior and notes changes in Taylor's attitude toward the device.
-relation{tuple_delimiter}Alex{tuple_delimiter}Jordan{tuple_delimiter}shared goals, rebellion{tuple_delimiter}Alex and Jordan share a commitment to discovery, which contrasts with Cruz's vision.)
-relation{tuple_delimiter}Taylor{tuple_delimiter}Jordan{tuple_delimiter}conflict resolution, mutual respect{tuple_delimiter}Taylor and Jordan interact directly regarding the device, leading to a moment of mutual respect and an uneasy truce.
-relation{tuple_delimiter}Jordan{tuple_delimiter}Cruz{tuple_delimiter}ideological conflict, rebellion{tuple_delimiter}Jordan's commitment to discovery is in rebellion against Cruz's vision of control and order.
-relation{tuple_delimiter}Taylor{tuple_delimiter}The Device{tuple_delimiter}reverence, technological significance{tuple_delimiter}Taylor shows reverence towards the device, indicating its importance and potential impact.
-{completion_delimiter}
-
+entity<|#|>Quy trình kiểm soát tài liệu bên ngoài<|#|>QUY_TRINH<|#|>Quy trình xử lý các tài liệu có nguồn gốc từ bên ngoài tổ chức.
+entity<|#|>V.QMS-P04<|#|>TAI_LIEU<|#|>Mã văn bản quy định quy trình kiểm soát tài liệu.
+entity<|#|>Bước 1: Xác định, nhận biết<|#|>BUOC_THUC_HIEN<|#|>Bước đầu tiên là nhận diện tài liệu.
+entity<|#|>Bước 2: Tiếp nhận tài liệu<|#|>BUOC_THUC_HIEN<|#|>Bước thứ hai là tiếp nhận tài liệu về đơn vị.
+entity<|#|>Bước 3: Xử lý và đánh giá<|#|>BUOC_THUC_HIEN<|#|>Bước thứ ba là đánh giá nội dung tài liệu.
+entity<|#|>Cơ quan/Chi nhánh<|#|>DON_VI<|#|>Đơn vị chịu trách nhiệm thực hiện bước 1.
+entity<|#|>Đơn vị liên quan<|#|>DON_VI<|#|>Đơn vị chịu trách nhiệm thực hiện bước 2.
+entity<|#|>05 ngày làm việc<|#|>THONG_SO<|#|>Thời gian giới hạn tối đa để xử lý.
+relation<|#|>Quy trình kiểm soát tài liệu bên ngoài<|#|>BAO_GOM<|#|>Bước 1: Xác định, nhận biết<|#|>thành phần<|#|>Quy trình bắt đầu với bước 1.
+relation<|#|>Quy trình kiểm soát tài liệu bên ngoài<|#|>QUY_DINH_TAI<|#|>V.QMS-P04<|#|>nguồn<|#|>Quy trình được quy định tại tài liệu V.QMS-P04.
+relation<|#|>Bước 1: Xác định, nhận biết<|#|>TIEP_THEO_LA<|#|>Bước 2: Tiếp nhận tài liệu<|#|>trình tự<|#|>Sau khi xác định xong thì chuyển sang tiếp nhận.
+relation<|#|>Bước 2: Tiếp nhận tài liệu<|#|>TIEP_THEO_LA<|#|>Bước 3: Xử lý và đánh giá<|#|>trình tự<|#|>Sau khi tiếp nhận thì chuyển sang xử lý.
+relation<|#|>Bước 1: Xác định, nhận biết<|#|>THUC_HIEN_BOI<|#|>Cơ quan/Chi nhánh<|#|>trách nhiệm<|#|>Cơ quan chi nhánh thực hiện bước này.
+relation<|#|>Bước 3: Xử lý và đánh giá<|#|>GIOI_HAN<|#|>05 ngày làm việc<|#|>thời hạn<|#|>Việc xử lý phải hoàn thành trong 5 ngày.
+<|COMPLETE|>

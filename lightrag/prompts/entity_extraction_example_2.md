@@ -1,26 +1,16 @@
-<Input Text>
-```
-Stock markets faced a sharp downturn today as tech giants saw significant declines, with the global tech index dropping by 3.4% in midday trading. Analysts attribute the selloff to investor concerns over rising interest rates and regulatory uncertainty.
+Tại Cảng HKQT Nội Bài: Tốc độ tối đa của phương tiện là 35km/h trên đường công vụ T2. Đối với khu vực an toàn vị trí đỗ tàu bay, tốc độ không được vượt quá 05km/h. Xe tra nạp nhiên liệu khi đã cài phanh tay và thiết lập hệ thống phanh liên động (interlock) thì người điều khiển được phép rời vị trí lái.
 
-Among the hardest hit, nexon technologies saw its stock plummet by 7.8% after reporting lower-than-expected quarterly earnings. In contrast, Omega Energy posted a modest 2.1% gain, driven by rising oil prices.
-
-Meanwhile, commodity markets reflected a mixed sentiment. Gold futures rose by 1.5%, reaching $2,080 per ounce, as investors sought safe-haven assets. Crude oil prices continued their rally, climbing to $87.60 per barrel, supported by supply constraints and strong demand.
-
-Financial experts are closely watching the Federal Reserve's next move, as speculation grows over potential rate hikes. The upcoming policy announcement is expected to influence investor confidence and overall market stability.
-```
 
 <Output>
-entity{tuple_delimiter}Global Tech Index{tuple_delimiter}category{tuple_delimiter}The Global Tech Index tracks the performance of major technology stocks and experienced a 3.4% decline today.
-entity{tuple_delimiter}Nexon Technologies{tuple_delimiter}organization{tuple_delimiter}Nexon Technologies is a tech company that saw its stock decline by 7.8% after disappointing earnings.
-entity{tuple_delimiter}Omega Energy{tuple_delimiter}organization{tuple_delimiter}Omega Energy is an energy company that gained 2.1% in stock value due to rising oil prices.
-entity{tuple_delimiter}Gold Futures{tuple_delimiter}product{tuple_delimiter}Gold futures rose by 1.5%, indicating increased investor interest in safe-haven assets.
-entity{tuple_delimiter}Crude Oil{tuple_delimiter}product{tuple_delimiter}Crude oil prices rose to $87.60 per barrel due to supply constraints and strong demand.
-entity{tuple_delimiter}Market Selloff{tuple_delimiter}category{tuple_delimiter}Market selloff refers to the significant decline in stock values due to investor concerns over interest rates and regulations.
-entity{tuple_delimiter}Federal Reserve Policy Announcement{tuple_delimiter}category{tuple_delimiter}The Federal Reserve's upcoming policy announcement is expected to impact investor confidence and market stability.
-entity{tuple_delimiter}3.4% Decline{tuple_delimiter}category{tuple_delimiter}The Global Tech Index experienced a 3.4% decline in midday trading.
-relation{tuple_delimiter}Global Tech Index{tuple_delimiter}Market Selloff{tuple_delimiter}market performance, investor sentiment{tuple_delimiter}The decline in the Global Tech Index is part of the broader market selloff driven by investor concerns.
-relation{tuple_delimiter}Nexon Technologies{tuple_delimiter}Global Tech Index{tuple_delimiter}company impact, index movement{tuple_delimiter}Nexon Technologies' stock decline contributed to the overall drop in the Global Tech Index.
-relation{tuple_delimiter}Gold Futures{tuple_delimiter}Market Selloff{tuple_delimiter}market reaction, safe-haven investment{tuple_delimiter}Gold prices rose as investors sought safe-haven assets during the market selloff.
-relation{tuple_delimiter}Federal Reserve Policy Announcement{tuple_delimiter}Market Selloff{tuple_delimiter}interest rate impact, financial regulation{tuple_delimiter}Speculation over Federal Reserve policy changes contributed to market volatility and investor selloff.
-{completion_delimiter}
-
+entity<|#|>Cảng HKQT Nội Bài<|#|>DIA_DIEM<|#|>Sân bay áp dụng quy định an toàn này.
+entity<|#|>Đường công vụ T2<|#|>KHU_VUC<|#|>Khu vực di chuyển của phương tiện tại nhà ga T2.
+entity<|#|>35km/h<|#|>THONG_SO<|#|>Giới hạn tốc độ tối đa cho đường công vụ.
+entity<|#|>Khu vực an toàn vị trí đỗ tàu bay<|#|>KHU_VUC<|#|>Khu vực nhạy cảm xung quanh tàu bay.
+entity<|#|>05km/h<|#|>THONG_SO<|#|>Giới hạn tốc độ thấp nhất an toàn.
+entity<|#|>Xe tra nạp nhiên liệu<|#|>TRANG_THIET_BI<|#|>Phương tiện đặc thù phục vụ nhiên liệu.
+entity<|#|>Rời vị trí lái<|#|>HANH_DONG<|#|>Hành động của người điều khiển phương tiện.
+entity<|#|>Phanh liên động (interlock)<|#|>TRANG_THIET_BI<|#|>Hệ thống an toàn kỹ thuật trên xe.
+relation<|#|>Đường công vụ T2<|#|>GIOI_HAN<|#|>35km/h<|#|>tốc độ tối đa<|#|>Tốc độ tối đa trên đường T2 là 35km/h.
+relation<|#|>Khu vực an toàn vị trí đỗ tàu bay<|#|>GIOI_HAN<|#|>05km/h<|#|>tốc độ tối đa<|#|>Tốc độ trong khu vực an toàn là 5km/h.
+relation<|#|>Rời vị trí lái<|#|>YEU_CAU<|#|>Phanh liên động (interlock)<|#|>điều kiện<|#|>Chỉ được rời vị trí khi đã cài interlock.
+<|COMPLETE|>
